@@ -1,0 +1,100 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Frameset//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-frameset.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=7">
+<title>BBin</title>
+<script type="text/javascript" src="BBin_files/ieupdate.js"></script>
+<script type="text/javascript">
+//--------Site Const---------------
+var SiteMode = 2;
+var Deposit_SiteMode = 13; //1:12bet 2:a88 Deposit site use only
+var DomainName = "vir888.com";
+var IsLogin = false;
+var UserLang = "cs";
+var SkinRootPath = "template/bbin/";
+var imgServerURL = "";
+var SiteId = "4201300";
+//--------Odds Display---------------
+var DisplayMode = '3';
+var hash_TmplLoaded = new Array(); // hashtable for keeping template loaded flag (value: true / false)
+//--------Menu---------------
+var LastSelectedSport = -1;//-1;
+var LastSelectedMArket = null;
+var LastSelectedMenu=0; // Default All
+//--------Racing---------------
+var CanSeeHorse=false;
+var CanSeeGreyhounds=false;
+var CanSeeHarness=false;
+//-------------------------------
+var MenuData_topmenu="";
+var ALogflag=false;
+var ScoreMsg='{{ScoreDiv}}';
+//--------Number Game---------------
+var CanSeeNumberGame=true;
+//--------Virtual sport------------
+var CanSeeVirtualSports=false;
+var CanBetVirtualSports=false;
+//--------SitePermission--------
+var CanSeeSportStreaming=false;
+var CanSeeStatsInfo=false;
+var CanSeeSportRadar=false;
+var ShowPersonalMsgBtn=false;
+var IsPopWideMsgWin=true;
+var IsInnerFrame=true;
+var IsNewCashSite=false;
+var EventBGColor_Even="#ffffff";
+var EventBGColor_Odd="#ffffff";
+var LiveBGColor_Even="#FBE3D2";
+var LiveBGColor_Odd="#FADAC3";
+var IsCssControl=false;
+var IsNewDropdownList=false;
+var IsShowHeader=false;
+var SupportBonusSystem=false;
+var DateColor="#666666";
+var HourLinkColor="#003399";
+
+</script>
+</head>
+
+<frameset rows="*,0" cols="*" framespacing="0" frameborder="no" border="0">
+	<frameset cols="198,*" framespacing="0" frameborder="no" border="0">
+		<frame src="BBin_files/homeleft.html" name="leftFrame" noresize="noresize" id="leftFrame" scrolling="auto">
+		<frame src="BBin_files/UnderOver.html" name="mainFrame" noresize="noresize" id="mainFrame" scrolling="auto">
+	</frameset>
+    <!-- Template Frame for Odds Display -->
+  <frameset rows="0,0, 0,0,0,0,0, 0,0,0,0,0,0,0, 0,0,0,0,0,0,0,0">
+		<frame id="UnderOver_tmpl_1">
+		<frame id="UnderOver_tmpl_3">
+		<!--  Deposit site no need
+		<frame id='UnderOver_tmpl_1F' />
+		<frame id='UnderOver_tmpl_1H' />
+		-->
+
+		<frame id="1X2_tmpl">
+		<frame id="CorrectScore_tmpl">
+		<frame id="OeTg_tmpl">
+		<frame id="HTFT_tmpl">
+		<frame id="FGLG_tmpl">
+
+		<frame id="NBA_tmpl">
+		<frame id="Tennis_tmpl">
+		<frame id="Baseball_tmpl">
+		<frame id="Cricket_tmpl">
+		<frame id="Bingo_tmpl">
+		<frame id="BingoFull_tmpl">
+		<frame id="MorePop_tmpl">
+
+		<frame id="Finance_tmpl">
+		<frame id="Horse_tmpl">
+		<frame id="Horse_Fixed_tmpl">
+		<frame id="Greyhounds_tmpl">
+		<frame id="Harness_tmpl">
+		<frame id="Outright_tmpl">
+		<frame id="VirtualSports_tmpl">
+		<frame id="Menu_tmpl">
+	</frameset>
+    <noframes></noframes>
+
+</frameset>
+
+</html>

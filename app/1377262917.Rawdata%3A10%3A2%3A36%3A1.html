@@ -1,0 +1,271 @@
+<html xmlns="http://www.w3.org/1999/xhtml"><head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<title>SBOBET</title>
+	<link type="text/css" rel="stylesheet" href="http://img-1-10.sbostatic.com/css/reset.css?140818">
+	
+	<link type="text/css" rel="stylesheet" href="http://img-1-10.sbostatic.com/css/asia2013_quirk.css?140818">
+	
+	<link type="text/css" rel="stylesheet" href="http://img-1-10.sbostatic.com/css/popup.css?140818">
+	<link type="text/css" rel="stylesheet" href="http://img-1-10.sbostatic.com/css/ui-lightness/jquery-ui-1.10.3.custom.css">
+	
+
+	<script src="//www.google-analytics.com/analytics.js"></script><script language="javascript" src="http://txt-1-10.sbostatic.com/js/cdn/jquery.js?v=1.9.1,1.10.3"></script>
+
+	<script language="javascript" src="http://txt-1-10.sbostatic.com/js/cdn/odds-display.js?v=130821"></script>
+
+	<script language="javascript">
+		function initiate() {
+			//adjustWindowSizeForRightColumn();
+			
+            // init the cookie monitor module
+            CookieHelper.setValue('module-setting-odds-display', (new Date()).getTime());
+            CookieHelper.setValue('module-setting-live-sport-display', (new Date()).getTime());
+            CookieHelper.setValue('module-setting-sport-market', (new Date()).getTime());
+            CookieHelper.setValue('module-setting-odds-display-setting', (new Date()).getTime());
+            // clear all previous state
+            CookieHelper.setValue('showing-sports','');
+            CookieHelper.setValue('opened-event-id','');
+            CookieHelper.setValue('opened-sport-id','');
+            CookieHelper.setValue('od-param-live-sport-mode','');
+            CookieHelper.setValue('od-param-sorting','');
+            CookieHelper.setValue('od-param-price-style','');
+            CookieHelper.setValue('opened-sport-id','');
+            CookieHelper.setValue('opened-market-id','');
+            
+			TiLib.GlobalCache.setItem('lang','zh-cn');
+			TiLib.GlobalCache.setItem('tmplversion','140818');
+			var sortingFromCookie = CookieHelper.getValue('od-param-sorting');
+			var marketShowingFromCookie = CookieHelper.getValue('od-param-market-showing');
+			var openedSportId = parseInt(CookieHelper.getValue('opened-sport-id'));
+			var openedMarketID = parseInt(CookieHelper.getValue('opened-market-id'));
+
+			var oddsDisplayParam = TiLib.Parameter.createParameter(['token', 'sport', 'market-page', 'price-style', 'sorting', 'market-showing', 'odds-mode', 'event-date'], [
+				1,
+				openedSportId ? openedSportId : 1,
+				openedMarketID ? openedMarketID : 1,
+				2,
+				sortingFromCookie ? sortingFromCookie : 1,
+				marketShowingFromCookie ? marketShowingFromCookie : 2,
+				1,
+				2
+				]);
+			var mixParlayInitialInfo = {
+				'refreshRate': 90,
+				'maxPayout':'RM285,714',
+				'halfMaxPayout':'RM57,143'
+			};
+			var csInitialInfo = {
+				'refreshRate': 90,
+				'maxPayout':'RM285,714'
+			};
+			var oddsDisplayInitialParams = {
+				1: [20, 60], // Today
+				2: 60, // EM
+				3: 20, // Live
+				4: [60,90], // OETG
+				5: csInitialInfo, // CS
+				6: 90, // HTFT
+				7: [60, 90], // 1X2DC
+				8: 90, // FGLG,
+				9: mixParlayInitialInfo, /* MP */
+				10: [120, 120]
+				
+			};
+			
+			var accSetting = {
+				isGmEnabled : 1,
+				isRtEnabled : 1,
+				isCasEnabled : 0,
+				isLcEnabled : 0
+			};
+			
+			$P.setModule('global', new __Module_Global_Page('sports'));
+			$P.setModule('sport-market', new __Module_SportMarket(30));
+			$P.setModule('odds-display', new __Module_OddsDisplay(oddsDisplayParam, 0, oddsDisplayInitialParams));
+			$P.setModule('select-tournament', new __Module_SelectTournament());
+			
+			$P.setModule('top-banner', new __Module_TopBanner());
+			$P.setModule('page-head', new __Module_PageHead());
+			$P.setModule('more', new __Module_More(null, 60));
+		    $P.setModule('ticket', new __Module_Ticket('edaf3ab1c2754fe4b702f111121f3690', 'RM', 0.35000000));
+		    $P.setModule('mini-bet-list', new __Module_MiniBetList('edaf3ab1c2754fe4b702f111121f3690', 5, 120));
+		    
+		    $P.setModule('announcement', new __Module_Announcement());
+			$P.setModule('odds-display-setting', new __Module_OddsDisplaySetting(1));
+			$P.setModule('cookie-setting-monitor', new __Module_CookieSettingMonitor());
+			$P.setModule('masking', new __Module_Masking(accSetting));
+			
+			
+			if (!TiLib.Browser.isMobileDevice()) {
+				$P.setModule('right-column', new __Module_Right_Column('zh-cn'));
+				$P.setModule('interested-event', new __Module_InterestedEvent(60));
+				$P.setModule('slider-bar', new __Module_SliderBar());
+			}
+			
+			$P.initiate();
+
+			TiLib.Timer.startSecondTimer();
+			TiLib.UI.enableEffect(true);
+			TiLib.Document.disableRightClick();
+			
+			
+			
+		}
+		
+		function onChangeLanguage(lang) {
+			if (lang == 'zh-cn') return;
+			var sportId = 1;
+			if ($M('odds-display') && $M('odds-display').getDisplaySetting) {
+				sportId = $M('odds-display').getDisplaySetting('sport');
+			}
+			window.top.location.href = 'default.aspx?loginname=' + 'edaf3ab1c2754fe4b702f111121f3690' + '&lang=' + lang + '&sportId=' + sportId;
+		}
+		
+		function showFullServices() {
+			var fullServices = document.getElementById('full-services');
+			if (fullServices) {
+				fullServices.style.display = 'block';
+			}
+			var shortServices = document.getElementById('short-services');
+			if (shortServices) {
+				shortServices.style.display = 'none';
+			}
+		}
+		
+		function showShortServices() {
+			var fullServices = document.getElementById('full-services');
+			if (fullServices) {
+				fullServices.style.display = 'none';
+			}
+			var shortServices = document.getElementById('short-services');
+			if (shortServices) {
+				shortServices.style.display = 'block';
+			}
+		}
+		
+		function adjustWindowSizeForRightColumn() {
+            var width = 0;
+            if (self.innerHeight) {
+				width = self.innerWidth;
+			}
+			else if (document.documentElement && document.documentElement.clientHeight) {
+				width = document.documentElement.clientWidth;
+			}
+			else if (document.body) {
+				width = document.body.clientWidth;
+			}
+
+			if (width < 1252) {
+				var fdiv = document.getElementById('body-inner');
+				var tdiv = document.getElementById('blue-bar-inner');
+				if (fdiv && tdiv) {
+					fdiv.className = 'normal-width body-inner';
+					tdiv.className = 'normal-width blue-bar-inner';
+				}
+			}
+	    }
+	</script>
+
+<script>(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+ga('create', 'UA-42644705-1', {'cookieDomain':'sbobet.com'});
+ga('send', 'pageview'); </script></head><body onload="initiate();">
+	<div class="blue-bar"><div id="blue-bar-inner" class="normal-width blue-bar-inner"><div id="account-links" class="account"><ul class="account-link"><li><a href="javascript:void(0);" onclick="$M('page-head').onMyBetsClick();" title="查看您的投注资讯">投注记录</a></li><li><a href="javascript:void(0);" onclick="$M('page-head').onStatementClick();" title="查看您的总赢额和其他转帐资讯">帐目</a></li><li><a href="javascript:void(0);" onclick="$M('page-head').onBalanceClick();" title="查看您的户口余额">余额</a></li><li><a href="javascript:void(0);" onclick="$M('page-head').onAcountClick();" title="管理您的户口设定">户口咨询</a></li><li id="ann-link-area" class="announcement" title="查看利记娱乐网的最新资讯">              <a href="javascript:void(0);" onclick="$M('announcement').onAnnouncementClick();">公告</a>              <span class="announcement-count show" id="anm-count"><span class="tab-bg announcement-count-left"></span><span class="one-px-bg announcement-count-body">44</span>    <span class="tab-bg announcement-count-right"></span>  </span><div id="announcement-div" class="announcement-div"></div></li></ul><ul class="account-right"><li class="sign-out" onmouseover="OddsUtility.addClassName(this,'sign-out-hover')" onmouseout="OddsUtility.removeClassName(this,'sign-out-hover')"><a onclick="$M('page-head').onSignOnClick();"><div class="tab-bg sign-out-left"></div><div class="one-px-bg sign-out-body">登出</div><div class="tab-bg sign-out-right"></div></a></li><li class="account-balance"><span id="icon-show-credit" class="icon-bg balance-hide hide" onclick="$M('page-head').onShowHideBetCredit(true);" title="显示您的户口余额"></span><span id="icon-hide-credit" class="icon-bg balance-show" onclick="$M('page-head').onShowHideBetCredit(false);" title="隐藏您的户口余额"></span><div id="bet-credit-container" class="bet-credit-container" onclick="$M('page-head').onUpdateBetCredit();" onmouseover="OddsUtility.addClassName(this,'bet-credit-container-hover')" onmouseout="OddsUtility.removeClassName(this,'bet-credit-container-hover')"><span class="currency">RM</span><span id="bet-credit" class="balance-amount">0.00</span><span id="bet-credit-refresh" class="balance-refresh"></span></div></li><li class="user-greeting">欢迎,  <span id="login-name">mba017</span></li></ul></div></div></div>
+	<div class="body-wrap">
+	<div id="body-inner" class="normal-width body-inner">
+		<!--header start-->
+		<!--Slider START-->
+		<div class="one-px-bg page-toolbar normal-width" style="top: -100px;" id="slider-bar" onclick="return $P.onClick(event, 'slider-bar');"><div class="page-toolbar-inner"><div class="page-toolbar-logo"></div><div class="toolbar-selection" onmouseover="$M('slider-bar').showSubMenu(this, 'sb-product-menu');" onmouseout="$M('slider-bar').hideSubMenu(this, 'sb-product-menu');">体育博彩<span class="toolbar-selection-arrow"></span><ul id="sb-product-menu" class="hide" onmouseover="OddsUtility.changeLIColor(event,'#d2e7ff')" onmouseout="OddsUtility.changeLIColor(event,'#fff')"><li onclick="$M('top-banner').goProduct('europe-home');"><a href="javascript:void(0);">首页</a></li><li onclick="$M('top-banner').goProduct('livesports');"><a href="javascript:void(0);">滚球投注</a></li><li onclick="$M('top-banner').goProduct('rt');"><a href="javascript:void(0);">赛马</a></li><li onclick="$M('top-banner').goProduct('gm');"><a href="javascript:void(0);">游戏</a></li></ul></div><div id="slider-sports" class="toolbar-selection" onmouseover="$M('slider-bar').showSubMenu(this,'sb-sports-menu');" onmouseout="$M('slider-bar').hideSubMenu(this,'sb-sports-menu');">篮球<span class="toolbar-selection-arrow"></span><ul id="sb-sports-menu" class="hide" onmouseover="OddsUtility.changeLIColor(event,'#d2e7ff')" onmouseout="OddsUtility.changeLIColor(event,'#fff')"><li id="bu:sd:sport:1" class="live"><div class="event-count"><div class="tab-bg event-count-left"></div><div class="one-px-bg event-count-body">758</div><div class="tab-bg event-count-right"></div></div>足球</li><li id="bu:sd:sport:2" class="live"><div class="event-count"><div class="tab-bg event-count-left"></div><div class="one-px-bg event-count-body">79</div><div class="tab-bg event-count-right"></div></div>篮球</li><li id="bu:sd:sport:9" class=""><div class="event-count"><div class="tab-bg event-count-left"></div><div class="one-px-bg event-count-body">17</div><div class="tab-bg event-count-right"></div></div>棒球</li><li id="bu:sd:sport:8" class=""><div class="event-count"><div class="tab-bg event-count-left"></div><div class="one-px-bg event-count-body">32</div><div class="tab-bg event-count-right"></div></div>网球</li><li id="bu:sd:sport:3" class=""><div class="event-count"><div class="tab-bg event-count-left"></div><div class="one-px-bg event-count-body">62</div><div class="tab-bg event-count-right"></div></div>美式足球</li><li id="bu:sd:sport:13" class=""><div class="event-count"><div class="tab-bg event-count-left"></div><div class="one-px-bg event-count-body">6</div><div class="tab-bg event-count-right"></div></div>拳击</li><li id="bu:sd:sport:14" class=""><div class="event-count"><div class="tab-bg event-count-left"></div><div class="one-px-bg event-count-body">1</div><div class="tab-bg event-count-right"></div></div>板球</li><li id="bu:sd:sport:18" class=""><div class="event-count"><div class="tab-bg event-count-left"></div><div class="one-px-bg event-count-body">1</div><div class="tab-bg event-count-right"></div></div>自行车</li><li id="bu:sd:sport:24" class=""><div class="event-count"><div class="tab-bg event-count-left"></div><div class="one-px-bg event-count-body">4</div><div class="tab-bg event-count-right"></div></div>飞镖</li><li id="bu:sd:sport:22" class=""><div class="event-count"><div class="tab-bg event-count-left"></div><div class="one-px-bg event-count-body">1</div><div class="tab-bg event-count-right"></div></div>综艺</li><li id="bu:sd:sport:30" class="live"><div class="event-count"><div class="tab-bg event-count-left"></div><div class="one-px-bg event-count-body">4</div><div class="tab-bg event-count-right"></div></div>曲棍球</li><li id="bu:sd:sport:12" class=""><div class="event-count"><div class="tab-bg event-count-left"></div><div class="one-px-bg event-count-body">45</div><div class="tab-bg event-count-right"></div></div>高尔夫</li><li id="bu:sd:sport:17" class=""><div class="event-count"><div class="tab-bg event-count-left"></div><div class="one-px-bg event-count-body">5</div><div class="tab-bg event-count-right"></div></div>手球</li><li id="bu:sd:sport:4" class=""><div class="event-count"><div class="tab-bg event-count-left"></div><div class="one-px-bg event-count-body">24</div><div class="tab-bg event-count-right"></div></div>冰球</li><li id="bu:sd:sport:31" class=""><div class="event-count"><div class="tab-bg event-count-left"></div><div class="one-px-bg event-count-body">9</div><div class="tab-bg event-count-right"></div></div>综合格斗</li><li id="bu:sd:sport:7" class=""><div class="event-count"><div class="tab-bg event-count-left"></div><div class="one-px-bg event-count-body">38</div><div class="tab-bg event-count-right"></div></div>赛车</li><li id="bu:sd:sport:6" class=""><div class="event-count"><div class="tab-bg event-count-left"></div><div class="one-px-bg event-count-body">34</div><div class="tab-bg event-count-right"></div></div>台球/斯诺克</li><li id="bu:sd:sport:16" class=""><div class="event-count"><div class="tab-bg event-count-left"></div><div class="one-px-bg event-count-body">19</div><div class="tab-bg event-count-right"></div></div>橄榄球</li><li id="bu:sd:sport:10" class=""><div class="event-count"><div class="tab-bg event-count-left"></div><div class="one-px-bg event-count-body">17</div><div class="tab-bg event-count-right"></div></div>排球</li><li id="bu:sd:sport:28" class=""><div class="event-count"><div class="tab-bg event-count-left"></div><div class="one-px-bg event-count-body">9</div><div class="tab-bg event-count-right"></div></div>冬季运动</li></ul></div><div id="slider-markets" class="toolbar-selection" onmouseover="$M('slider-bar').showSubMenu(this,'sb-market-menu');" onmouseout="$M('slider-bar').hideSubMenu(this,'sb-market-menu');">早盘<span class="toolbar-selection-arrow"></span><ul id="sb-market-menu" class="hide" onmouseover="OddsUtility.changeLIColor(event,'#d2e7ff')" onmouseout="OddsUtility.changeLIColor(event,'#fff')"><li id="bu:sd:market:3" class="live"><div class="event-count"><div class="tab-bg event-count-left"></div><div class="one-px-bg event-count-body">4</div><div class="tab-bg event-count-right"></div></div>滚球</li><li id="bu:sd:market:1" class="live"><div class="event-count"><div class="tab-bg event-count-left"></div><div class="one-px-bg event-count-body">37</div><div class="tab-bg event-count-right"></div></div>今日赛事</li><li id="bu:sd:market:2" class=""><div class="event-count"><div class="tab-bg event-count-left"></div><div class="one-px-bg event-count-body">4</div><div class="tab-bg event-count-right"></div></div>早盘</li><li id="bu:sd:market:4" class=""><div class="event-count"><div class="tab-bg event-count-left"></div><div class="one-px-bg event-count-body">37</div><div class="tab-bg event-count-right"></div></div>全场单双 &amp; 总进球</li><li id="bu:sd:market:9" class=""><div class="event-count"><div class="tab-bg event-count-left"></div><div class="one-px-bg event-count-body">4</div><div class="tab-bg event-count-right"></div></div>混合过关</li><li id="bu:sd:market:10" class=""><div class="event-count"><div class="tab-bg event-count-left"></div><div class="one-px-bg event-count-body">38</div><div class="tab-bg event-count-right"></div></div>优胜冠军</li></ul></div><div class="page-toolbar-right"><div class="page-toolbar-system-time" id="slider-bar-time">08/23/2013 09:02PM GMT+8</div><div class="page-toolbar-icon"><div class="page-toolbar-icon-group" id="slider-bar-od-setting-icons"><div class="tab-bg page-toolbar-icon-left"></div><div class="one-px-bg page-toolbar-icon-body"><a onclick="$M('top-banner').onSBOBETvClick(null,'slider');" href="javascript:void(0);" class="sbobetv-icon BRN" title="观看 SBOBETv 赛事直播"></a><a href="javascript:void(0);" class="tv-schedule-icon" onclick="$M('top-banner').onTvScheduleClick();" title="查看您所在地区的电视时间表"></a><a onclick="$M('odds-display-setting').onSoundClick();" href="javascript:void(0);" class="sound-off-icon" title="开启已投注赛事的得分提示声"></a><a id="tb-price-style" href="javascript:void(0);" class="odds-type-2" title=""><ul class="global-setting-dropdown" onmouseover="OddsUtility.changeLIColor(event,'#d2e7ff')" onmouseout="OddsUtility.changeLIColor(event,'#fff')"><li onclick="$M('odds-display-setting').setDisplaySetting('price-style',1);"><span class="odds-type-1"></span><span> 马来赔率</span></li><li onclick="$M('odds-display-setting').setDisplaySetting('price-style',2);"><span class="odds-type-2"></span><span> 香港赔率</span></li><li onclick="$M('odds-display-setting').setDisplaySetting('price-style',4);"><span class="odds-type-4"></span><span> 欧洲赔率</span></li></ul></a><a id="tb-odds-mode" href="javascript:void(0);" class="odds-display-1" title=""><ul class="global-setting-dropdown" onmouseover="OddsUtility.changeLIColor(event,'#d2e7ff')" onmouseout="OddsUtility.changeLIColor(event,'#fff')"><li onclick="$M('odds-display-setting').setDisplaySetting('odds-mode',1);"><span class="odds-display-1"></span><span> 双行式</span></li><li onclick="$M('odds-display-setting').setDisplaySetting('odds-mode',2);"><span class="odds-display-2"></span><span> 单行式</span></li></ul></a><a id="tb-sorting" href="javascript:void(0);" class="sort-1" title=""><ul class="global-setting-dropdown" onmouseover="OddsUtility.changeLIColor(event,'#d2e7ff')" onmouseout="OddsUtility.changeLIColor(event,'#fff')"><li onclick="$M('odds-display-setting').setDisplaySetting('sorting',1);"><span class="sort-1"></span><span> 热门排序</span></li><li onclick="$M('odds-display-setting').setDisplaySetting('sorting',2);"><span class="sort-2"></span><span> 时间排序</span></li></ul></a><a id="tb-market-showing" href="javascript:void(0);" class="market-type-2-off global-icon-off" title="此功能暂不适用"><ul class="global-setting-dropdown" onmouseover="OddsUtility.changeLIColor(event,'#d2e7ff')" onmouseout="OddsUtility.changeLIColor(event,'#fff')"><li onclick="$M('odds-display-setting').setDisplaySetting('market-showing',1,'slider');"><span class="market-type-1"></span><span> 主要盘口</span></li><li onclick="$M('odds-display-setting').setDisplaySetting('market-showing',2,'slider');"><span class="market-type-2"></span><span> 全部盘口</span></li></ul></a></div><div class="tab-bg page-toolbar-icon-right"></div></div></div></div></div></div>
+		<!--Slider END-->
+		<div class="one-px-bg header">
+			<div class="header-inner"><div class="product-list"><ul class=""><li class=""><div class="product-tab-left"></div><div class="product-tab-body"><a href="/web-root/restricted/redirect-page.aspx?p=europe-home">首页</a></div><div class="product-tab-right"></div></li><li class="selected"><div class="product-tab-left"></div><div class="product-tab-body">体育博彩</div><div class="product-tab-right"></div></li><li class=""><div class="product-tab-left"></div><div class="product-tab-body"><a href="/web-root/restricted/redirect-page.aspx?at=true&amp;p=livesports&amp;loginname=edaf3ab1c2754fe4b702f111121f3690&amp;lang=zh-cn">滚球投注</a></div><div class="product-tab-right"></div></li><li><div class="product-tab-left"></div><div class="product-tab-body"><a href="/web-root/restricted/redirect-page.aspx?p=rt" onclick="$M('top-banner').goProduct('rt'); event.returnValue = false; return false;">赛马</a></div><div class="product-tab-right"></div></li><li><div class="product-tab-left"></div><div class="product-tab-body"><a href="/web-root/restricted/redirect-page.aspx?p=gm" onclick="$M('top-banner').goProduct('gm'); event.returnValue = false; return false;">游戏</a><div class="games-count-wrap"><div class="games-count"><div class="tab-bg games-count-left"></div><div class="one-px-bg games-count-body">7</div><div class="tab-bg games-count-right"></div>        <br><div class="games-count-bottom-wrap"><div class="tab-bg games-count-bottom"></div></div></div></div></div><div class="product-tab-right"></div></li></ul><div class="header-icons"><div onclick="$M('top-banner','scrollbars=no,resizable=no,width=775').onResultClick();" class="icon-bg result" onmouseover="OddsUtility.addClassName(this,'result-hover')" onmouseout="OddsUtility.removeClassName(this, 'result-hover')">赛事结果</div><div class="icon-bg live-chat" href="javascript:void(0);" onclick="TiLib.Window.openWindow('/web-root/restricted/live-chat-room.aspx', 'LiveChat', 'scrollbars=no,resizable=no,width=490,height=404');" onmouseover="OddsUtility.addClassName(this,'live-chat-hover')" onmouseout="OddsUtility.removeClassName(this, 'live-chat-hover')">即时对谈</div><div class="icon-bg help" onclick="TiLib.Window.openWindow('http://www.sbobet-info.com/zh-cn/article/AA-00324', 'info');" onmouseover="OddsUtility.addClassName(this,'help-hover')" onmouseout="OddsUtility.removeClassName(this, 'help-hover')">帮助</div></div><a id="A1" href="javascript:void(0);" onclick="javascript:window.location.reload(true);" class="logo" title="SBOBET"></a></div><div class="header-bottom-link"><div class="header-bottom-left"><div class="lang-selection" id="selected-lang" onclick="$M('top-banner').onLanguageClick();"><div class="lang-drop-down"><span class="lang-img"></span><span>简体中文 (亚洲版)</span><span class="lang-divider"></span><ul class="lang-drop-down-ul hide" id="lang-menu" onmouseover="OddsUtility.changeLIColor(event,'#d2e7ff')" onmouseout="OddsUtility.changeLIColor(event,'#fff')"><li class="region-selector"><div><a class="selector-list">区域:</a></div></li><li class="selected selector-border"><a class="" onclick="event.returnValue = false; return false;">亚洲版</a></li><li style=""><a onclick="$M('top-banner').goProduct('europe-sports'); event.returnValue = false; return false;" href="javascript:void(0);">欧洲版</a></li><li class="language-selector"><div><a class="selector-list">语言:</a></div></li><li class="BTN " onclick="onChangeLanguage('en');"><a class="selector-list-a">English</a></li><li class="selected" onclick="onChangeLanguage('zh-cn');"><a class="selector-list-a">简体中文</a></li><li class="" onclick="onChangeLanguage('zh-tw');"><a class="selector-list-a">繁體中文</a></li><li class="" onclick="onChangeLanguage('id-id');"><a class="selector-list-a">Indonesia</a></li><li class="" onclick="onChangeLanguage('vi-vn');"><a class="selector-list-a">Tiếng Việt</a></li><li class="" onclick="onChangeLanguage('th-th');"><a class="selector-list-a">ภาษาไทย</a></li><li style="" class="" onclick="onChangeLanguage('fr-fr');"><a class="selector-list-a">Français</a></li><li style="" class="" onclick="onChangeLanguage('pt-pt');"><a class="selector-list-a">Português</a></li><li style="" class="" onclick="onChangeLanguage('ru-ru');"><a class="selector-list-a">Pусский</a></li><li class="" onclick="onChangeLanguage('ja-jp');"><a class="selector-list-a">日本語</a></li><li class="" onclick="onChangeLanguage('ko-kr');"><a class="selector-list-a">한국어</a></li><li class="" onclick="onChangeLanguage('de-de');"><a class="selector-list-a">Deutsch</a></li><li class="" onclick="onChangeLanguage('es-es');"><a class="selector-list-a">Español</a></li><li class="" onclick="onChangeLanguage('my-mm');"><a class="selector-list-a">Burmese</a></li></ul></div></div><span class="system-time"><span id="top-banner-time">08/23/2013 09:02PM</span> GMT<span onclick="alert('G05');">+</span>8</span></div><div id="odds-display-setting" class="header-bottom-right"><a onclick="$M('top-banner').onSBOBETvClick(null,'top');" href="javascript:void(0);" class="sbobetv-icon BRN" title="观看 SBOBETv 赛事直播"></a><a href="javascript:void(0);" class="tv-schedule-icon" onclick="$M('top-banner').onTvScheduleClick();" title="查看您所在地区的电视时间表"></a><a onclick="$M('odds-display-setting').onSoundClick();" href="javascript:void(0);" class="sound-off-icon" title="开启已投注赛事的得分提示声"></a><a id="tb-price-style" href="javascript:void(0);" class="odds-type-2" title=""><ul class="global-setting-dropdown" onmouseover="OddsUtility.changeLIColor(event,'#d2e7ff')" onmouseout="OddsUtility.changeLIColor(event,'#fff')"><li onclick="$M('odds-display-setting').setDisplaySetting('price-style',1);"><span class="odds-type-1"></span><span> 马来赔率</span></li><li onclick="$M('odds-display-setting').setDisplaySetting('price-style',2);"><span class="odds-type-2"></span><span> 香港赔率</span></li><li onclick="$M('odds-display-setting').setDisplaySetting('price-style',4);"><span class="odds-type-4"></span><span> 欧洲赔率</span></li></ul></a><a id="tb-odds-mode" href="javascript:void(0);" class="odds-display-1" title=""><ul class="global-setting-dropdown" onmouseover="OddsUtility.changeLIColor(event,'#d2e7ff')" onmouseout="OddsUtility.changeLIColor(event,'#fff')"><li onclick="$M('odds-display-setting').setDisplaySetting('odds-mode',1);"><span class="odds-display-1"></span><span> 双行式</span></li><li onclick="$M('odds-display-setting').setDisplaySetting('odds-mode',2);"><span class="odds-display-2"></span><span> 单行式</span></li></ul></a><a id="tb-sorting" href="javascript:void(0);" class="sort-1" title=""><ul class="global-setting-dropdown" onmouseover="OddsUtility.changeLIColor(event,'#d2e7ff')" onmouseout="OddsUtility.changeLIColor(event,'#fff')"><li onclick="$M('odds-display-setting').setDisplaySetting('sorting',1);"><span class="sort-1"></span><span> 热门排序</span></li><li onclick="$M('odds-display-setting').setDisplaySetting('sorting',2);"><span class="sort-2"></span><span> 时间排序</span></li></ul></a><a id="tb-market-showing" href="javascript:void(0);" class="market-type-2-off global-icon-off" title="此功能暂不适用"><ul class="global-setting-dropdown" onmouseover="OddsUtility.changeLIColor(event,'#d2e7ff')" onmouseout="OddsUtility.changeLIColor(event,'#fff')"><li onclick="$M('odds-display-setting').setDisplaySetting('market-showing',2,'top');"><span class="market-type-2"></span><span> 全部盘口</span></li><li onclick="$M('odds-display-setting').setDisplaySetting('market-showing',1,'top');"><span class="market-type-1"></span><span> 主要盘口</span></li></ul></a></div></div></div><div id="div-sound"></div>
+		</div>
+		<!--header end-->
+		<!--container start-->
+		<div class="container">
+			<!--left cloumn start-->
+			<div class="l-column">
+				<!--sports market start-->
+				<div id="module-sport-market" class="sports-market-block" onclick="return $P.onClick(event, 'sport-market');"><div class="selection-tab"><ul><li id="bu:sm:sports" class=""><div class="left-tab "><div class="tab-bg tab-left"></div><div class="one-px-bg tab-body">运动</div><div class="tab-bg tab-right"></div></div></li><li id="bu:sm:markets" class="selected">          <div class="one-px-bg tab-bottom"></div>          <div class="right-tab"><div class="tab-bg tab-left"></div><div class="one-px-bg tab-body">盘口</div><div class="tab-bg tab-right"></div></div>          </li></ul></div><div class="selection-body sports-market-body"><div class="sports-content hide"><ul><li class=" live"><a href="javascript:void(0);" id="bu:sm:sport:1"><div class="event-count"><div class="tab-bg event-count-left"></div><div class="one-px-bg event-count-body">758</div><div class="tab-bg event-count-right"></div></div><span class="sport-image sport-image-1"></span>足球</a></li><li class="selected live"><a href="javascript:void(0);" id="bu:sm:sport:2"><div class="event-count"><div class="tab-bg event-count-left"></div><div class="one-px-bg event-count-body">79</div><div class="tab-bg event-count-right"></div></div><span class="sport-image sport-image-2"></span>篮球</a></li><li class=" "><a href="javascript:void(0);" id="bu:sm:sport:9"><div class="event-count"><div class="tab-bg event-count-left"></div><div class="one-px-bg event-count-body">17</div><div class="tab-bg event-count-right"></div></div><span class="sport-image sport-image-9"></span>棒球</a></li><li class=" "><a href="javascript:void(0);" id="bu:sm:sport:8"><div class="event-count"><div class="tab-bg event-count-left"></div><div class="one-px-bg event-count-body">32</div><div class="tab-bg event-count-right"></div></div><span class="sport-image sport-image-8"></span>网球</a></li><li class=" "><a href="javascript:void(0);" id="bu:sm:sport:3"><div class="event-count"><div class="tab-bg event-count-left"></div><div class="one-px-bg event-count-body">62</div><div class="tab-bg event-count-right"></div></div><span class="sport-image sport-image-3"></span>美式足球</a></li><li class=" "><a href="javascript:void(0);" id="bu:sm:sport:13"><div class="event-count"><div class="tab-bg event-count-left"></div><div class="one-px-bg event-count-body">6</div><div class="tab-bg event-count-right"></div></div><span class="sport-image sport-image-13"></span>拳击</a></li><li class=" "><a href="javascript:void(0);" id="bu:sm:sport:14"><div class="event-count"><div class="tab-bg event-count-left"></div><div class="one-px-bg event-count-body">1</div><div class="tab-bg event-count-right"></div></div><span class="sport-image sport-image-14"></span>板球</a></li><li class=" "><a href="javascript:void(0);" id="bu:sm:sport:18"><div class="event-count"><div class="tab-bg event-count-left"></div><div class="one-px-bg event-count-body">1</div><div class="tab-bg event-count-right"></div></div><span class="sport-image sport-image-18"></span>自行车</a></li><li class=" "><a href="javascript:void(0);" id="bu:sm:sport:24"><div class="event-count"><div class="tab-bg event-count-left"></div><div class="one-px-bg event-count-body">4</div><div class="tab-bg event-count-right"></div></div><span class="sport-image sport-image-24"></span>飞镖</a></li><li class=" "><a href="javascript:void(0);" id="bu:sm:sport:22"><div class="event-count"><div class="tab-bg event-count-left"></div><div class="one-px-bg event-count-body">1</div><div class="tab-bg event-count-right"></div></div><span class="sport-image sport-image-22"></span>综艺</a></li><li class=" live"><a href="javascript:void(0);" id="bu:sm:sport:30"><div class="event-count"><div class="tab-bg event-count-left"></div><div class="one-px-bg event-count-body">4</div><div class="tab-bg event-count-right"></div></div><span class="sport-image sport-image-30"></span>曲棍球</a></li><li class=" "><a href="javascript:void(0);" id="bu:sm:sport:12"><div class="event-count"><div class="tab-bg event-count-left"></div><div class="one-px-bg event-count-body">45</div><div class="tab-bg event-count-right"></div></div><span class="sport-image sport-image-12"></span>高尔夫</a></li><li class=" "><a href="javascript:void(0);" id="bu:sm:sport:17"><div class="event-count"><div class="tab-bg event-count-left"></div><div class="one-px-bg event-count-body">5</div><div class="tab-bg event-count-right"></div></div><span class="sport-image sport-image-17"></span>手球</a></li><li class=" "><a href="javascript:void(0);" id="bu:sm:sport:4"><div class="event-count"><div class="tab-bg event-count-left"></div><div class="one-px-bg event-count-body">24</div><div class="tab-bg event-count-right"></div></div><span class="sport-image sport-image-4"></span>冰球</a></li><li class=" "><a href="javascript:void(0);" id="bu:sm:sport:31"><div class="event-count"><div class="tab-bg event-count-left"></div><div class="one-px-bg event-count-body">9</div><div class="tab-bg event-count-right"></div></div><span class="sport-image sport-image-31"></span>综合格斗</a></li><li class=" "><a href="javascript:void(0);" id="bu:sm:sport:7"><div class="event-count"><div class="tab-bg event-count-left"></div><div class="one-px-bg event-count-body">38</div><div class="tab-bg event-count-right"></div></div><span class="sport-image sport-image-7"></span>赛车</a></li><li class=" "><a href="javascript:void(0);" id="bu:sm:sport:6"><div class="event-count"><div class="tab-bg event-count-left"></div><div class="one-px-bg event-count-body">34</div><div class="tab-bg event-count-right"></div></div><span class="sport-image sport-image-6"></span>台球/斯诺克</a></li><li class=" "><a href="javascript:void(0);" id="bu:sm:sport:16"><div class="event-count"><div class="tab-bg event-count-left"></div><div class="one-px-bg event-count-body">19</div><div class="tab-bg event-count-right"></div></div><span class="sport-image sport-image-16"></span>橄榄球</a></li><li class=" "><a href="javascript:void(0);" id="bu:sm:sport:10"><div class="event-count"><div class="tab-bg event-count-left"></div><div class="one-px-bg event-count-body">17</div><div class="tab-bg event-count-right"></div></div><span class="sport-image sport-image-10"></span>排球</a></li><li class=" "><a href="javascript:void(0);" id="bu:sm:sport:28"><div class="event-count"><div class="tab-bg event-count-left"></div><div class="one-px-bg event-count-body">9</div><div class="tab-bg event-count-right"></div></div><span class="sport-image sport-image-28"></span>冬季运动</a></li></ul></div><div class="market-content ">        <div class="market-sport-row">          <div class="market-sports-inner">          篮球          </div>        </div><ul class="market-list"><li class=" live"><a href="javascript:void(0);" id="bu:sm:market:3"><div class="event-count"><div class="tab-bg event-count-left"></div><div class="one-px-bg event-count-body">4</div><div class="tab-bg event-count-right"></div></div>滚球</a></li><li class=" live"><a href="javascript:void(0);" id="bu:sm:market:1"><div class="event-count"><div class="tab-bg event-count-left"></div><div class="one-px-bg event-count-body">37</div><div class="tab-bg event-count-right"></div></div>今日赛事</a></li><li class="selected "><a href="javascript:void(0);" id="bu:sm:market:2"><div class="event-count"><div class="tab-bg event-count-left"></div><div class="one-px-bg event-count-body">4</div><div class="tab-bg event-count-right"></div></div>早盘</a></li><li class=" "><a href="javascript:void(0);" id="bu:sm:market:4"><div class="event-count"><div class="tab-bg event-count-left"></div><div class="one-px-bg event-count-body">37</div><div class="tab-bg event-count-right"></div></div>全场单双 &amp; 总进球</a></li><li class=" "><a href="javascript:void(0);" id="bu:sm:market:9"><div class="event-count"><div class="tab-bg event-count-left"></div><div class="one-px-bg event-count-body">4</div><div class="tab-bg event-count-right"></div></div>混合过关</a></li><li class=" "><a href="javascript:void(0);" id="bu:sm:market:10"><div class="event-count"><div class="tab-bg event-count-left"></div><div class="one-px-bg event-count-body">38</div><div class="tab-bg event-count-right"></div></div>优胜冠军</a></li></ul></div></div></div>
+				<!--sports market end-->
+				<div id="left-panel" class="l-column-bottom">
+				<!--ticket mp block start - no bets -->
+				<div id="module-ticket" class="ticket-mp-block" onclick="$M('ticket').onClick(event);">
+				    <div class="ticket-mp-block" id="tk:void">
+				        <div class="selection-tab">
+                            <ul>
+                              <li class="selected">
+                                <div class="left-tab " id="tk:tab:ticket">
+                                  <div class="tab-bg tab-left"></div>
+                                  <div class="one-px-bg tab-body">注单</div>
+                                  <div class="tab-bg tab-right"></div>
+                                </div>
+                              </li>
+                              <li>
+                              <div class="one-px-bg tab-bottom"></div>
+                                <div class="right-tab" id="tk:tab:parlay">
+                                  <div class="tab-bg tab-left"></div>
+                                  <div class="one-px-bg tab-body">过关 <div class="parlay-count">
+								<div class="tab-bg parlay-count-left"></div>
+								<div class="one-px-bg parlay-count-body">0</div>
+								<div class="tab-bg parlay-count-right"></div>
+							</div></div>
+                                  <div class="tab-bg tab-right"></div>
+                                  
+                                </div>
+                              </li>
+                          </ul>
+                        </div>
+                        <div class="selection-body ticket-mp-body">
+                            <div class="ticket-content hide" id="tk:tk">
+                               <div class="ticket-body">
+                                 <div class="ticket-no-bet">尚未选择任何投注。</div>
+                                 <span>点击个别赔率以进行新投注。</span> </div>
+                               </div>
+                            <div class="mp-content hide" id="tk:mp">                        
+                            </div>
+				        </div>
+				    </div>
+				</div>
+				<!--my bet block start - no bets-->
+				<div id="module-mybets" class="my-bet-block" onclick="$M('mini-bet-list').onClick(event);"><div class="my-bet-block" id="mb:void"><div class="my-bet-title"><div class="single-tab cursor-pointer" id="mb:toggle"><div class="tab-bg tab-left"></div><div class="one-px-bg tab-body">投注记录</div><div class="tab-bg tab-right"></div></div><div class="l-event-refresh" id="l-refresh-button-container"><a href="javascript:void(0);" id="mb:rf:button" class="l-event-header-refresh"><div class="icon-bg r-event-refresh-icon">&nbsp;</div><span>刷新&nbsp;</span></a></div></div><div id="mb:pb:data"><div class="pending-body pending-bets-scroll-content" id="mb:pb" style="height: 45px; overflow-x: hidden; overflow-y: hidden; "><div class="selection-body my-bet-body"><span class="my-bet-no-bet">目前无等待中的投注。</span></div></div></div><div class="my-bet-view-all" id="mb:viewall">        <span>查看全部</span></div></div></div>
+				<!--my bet block end - no bets-->
+				</div>
+			</div>
+			<!--left column end-->
+			<!--centre-column start-->
+			<div class="c-column">
+				<div id="module-odds-display" onclick="return $P.onClick(event, 'odds-display');"><div id="odds-display-nonlive" class="odds-block"><div class="event-header-container"><div class="tab-bg event-header-right"></div><div class="one-px-bg event-header-body"><div class="event-header-icon"><div class="event-header-select-league"><a href="#" id="bu:od:select-tournament:1"><span class="icon-bg select-league-icon"></span><span>选择联赛</span></a>            <a class="event-header-dropdown-option" href="#"><span>之后</span><ul class="event-header-dropdown" onmouseover="OddsUtility.changeLIColor(event,'#d2e7ff')" onmouseout="OddsUtility.changeLIColor(event,'#fff')"><li id="bu:od:event-date:2"> 08/24 </li><li id="bu:od:event-date:3"> 08/25 </li><li id="bu:od:event-date:4"> 08/26 </li><li id="bu:od:event-date:5"> 08/27 </li><li id="bu:od:event-date:6"> 08/28 </li><li id="bu:od:event-date:7"> 之后 </li><li id="bu:od:event-date:8"> 全部日期 </li></ul></a>          </div></div><span class="event-header-market"><span class="sport-image sport-image-2" title="篮球"></span>早盘</span><a href="javascript:void(0);" id="bu:od:refresh-nonlive:button" class="event-header-refresh" onmouseover="$M('odds-display').onMouseOver(event, 'refresh-button')" onmouseout="$M('odds-display').onMouseOut(event, 'refresh-button')"><div class="icon-bg league-refresh-icon-rotate">&nbsp;</div>刷新中…</a></div><div class="tab-bg event-header-left"></div></div><table width="100%" cellspacing="0" cellpadding="0" border="0" class="content-table today-table double-line-table" frame="box" rules="all"><tbody><tr><th width="60" rowspan="2" class="BLN">时间</th><th width="177" rowspan="2">赛事</th><th colspan="3">全场</th><th colspan="3">上半场</th><th rowspan="2" width="45">更多<br>盘口</th></tr><tr><th colspan="" class="cursor-help" width="90" title="全场亚洲盘">亚洲盘</th><th colspan="" class="cursor-help" width="125" title="全场大小盘">大小盘</th><th class="cursor-help" title="全场单双盘" width="50">单双盘</th><th colspan="" class="cursor-help" title="上半场亚洲盘" width="90">亚洲盘</th><th colspan="" class="cursor-help" title="上半场大小盘" width="125">大小盘</th><th class="cursor-help" title="上半场单双盘" width="50">单双盘</th></tr></tbody><tbody></tbody><tbody><tr class="league-row"><td colspan="9" id="bu:od:refresh-nonlive"><div class="icon-bg league-refresh-icon" title="刷新"></div><span class="league-name">NBA 美国职业篮球赛</span></td></tr></tbody><tbody class="blue-bg  " onmouseout="OddsUtility.changeRowsColor('row-nonlive-0', '#ccddff', 2);" onmouseover="OddsUtility.changeRowsColor('row-nonlive-0', '#ffffcc', 2);"><tr id="row-nonlive-0-0" bgcolor="#ccddff"><td class="time-column" rowspan="2" title="">          <div class="time-column-inner">            <div class="time-column-icon">                                        </div>            <div class="time-column-content">              <span>10/30<br>**:**</span>              <br>              <span class="Red"></span>            </div>          </div></td><td class="team-name-column" rowspan="2" title=""><span class="Red">印第安纳溜马</span><br><span class="Blue">奥兰多魔术</span></td><td class="BBN BRN"><a class="odds-wrap"><span class="hdp-point">9.50</span><span class=""><span class="&nbsp;"><span id="bu:od:price:23200283:h:0.95:1" class="odds black">0.95</span></span></span></a></td><td class="BBN BRN BLN"><a class="odds-wrap"><span class="hdp-point">187.50</span><span class="ou-tag">o</span><span class=" "><span class="&nbsp;"><span id="bu:od:price:23200285:h:0.91:1" class="odds black">0.91</span></span></span></a></td><td class="BLN BBN"><a class="odds-wrap"><span class="oe-tag">o</span><span class=""><span class="&nbsp;"><span id="bu:od:price:23200284:h:0.93:1" class="odds black">0.93</span></span></span></a></td><td class="BBN BRN"><a class=""><span class="hdp-point">&nbsp;</span><span class=""><span class="&nbsp;">&nbsp;</span></span></a></td><td class="BBN BRN BLN"><a class=""><span class="hdp-point">&nbsp;</span><span class="ou-tag">&nbsp;</span><span class=""><span class=" &nbsp;">&nbsp;</span></span></a></td><td class="BLN BBN"><a class="odds-wrap"><span class="oe-tag">o</span><span class=""><span class="&nbsp;"><span id="bu:od:price:23200288:h:0.93:1" class="odds black">0.93</span></span></span></a></td><td rowspan="2" class="more-column"></td></tr><tr id="row-nonlive-0-1" bgcolor="#ccddff"><td class="BRN BTN"><a class="odds-wrap"><span class="hdp-point">&nbsp;</span><span class=""><span class="&nbsp;"><span id="bu:od:price:23200283:a:0.89:1" class="odds black">0.89</span></span></span></a></td><td class="BRN BLN BTN"><a class="odds-wrap"><span class="ou-tag">u</span><span class=""><span class="&nbsp;"><span id="bu:od:price:23200285:a:0.91:1" class="odds black">0.91</span></span></span></a></td><td class="BLN BTN"><a class="odds-wrap"><span class="oe-tag">e</span><span class=""><span class="&nbsp;"><span id="bu:od:price:23200284:a:0.93:1" class="odds black">0.93</span></span></span></a></td><td class="BRN BTN"><a class=""><span class="hdp-point">&nbsp;</span><span class=""><span class="&nbsp;">&nbsp;</span></span></a></td><td class="BRN BLN BTN"><a class=""><span class="ou-tag">&nbsp;</span><span class=""><span class="&nbsp;">&nbsp;</span></span></a></td><td class="BLN BTN"><a class="odds-wrap"><span class="oe-tag">e</span><span class=""><span class="&nbsp;"><span id="bu:od:price:23200288:a:0.93:1" class="odds black">0.93</span></span></span></a></td></tr></tbody><tbody class="green-bg  " onmouseout="OddsUtility.changeRowsColor('row-nonlive-1', '#bbdede', 2);" onmouseover="OddsUtility.changeRowsColor('row-nonlive-1', '#ffffcc', 2);"><tr id="row-nonlive-1-0" bgcolor="#bbdede"><td class="time-column" rowspan="2" title="">          <div class="time-column-inner">            <div class="time-column-icon">                                        </div>            <div class="time-column-content">              <span>10/30<br>**:**</span>              <br>              <span class="Red"></span>            </div>          </div></td><td class="team-name-column" rowspan="2" title=""><span class="Red">迈亚密热火</span><br><span class="Blue">芝加哥公牛</span></td><td class="BBN BRN"><a class="odds-wrap"><span class="hdp-point">6.0</span><span class=""><span class="&nbsp;"><span id="bu:od:price:23200320:h:0.92:1" class="odds black">0.92</span></span></span></a></td><td class="BBN BRN BLN"><a class="odds-wrap"><span class="hdp-point">189.50</span><span class="ou-tag">o</span><span class=" "><span class="&nbsp;"><span id="bu:od:price:23200322:h:0.91:1" class="odds black">0.91</span></span></span></a></td><td class="BLN BBN"><a class="odds-wrap"><span class="oe-tag">o</span><span class=""><span class="&nbsp;"><span id="bu:od:price:23200321:h:0.93:1" class="odds black">0.93</span></span></span></a></td><td class="BBN BRN"><a class=""><span class="hdp-point">&nbsp;</span><span class=""><span class="&nbsp;">&nbsp;</span></span></a></td><td class="BBN BRN BLN"><a class=""><span class="hdp-point">&nbsp;</span><span class="ou-tag">&nbsp;</span><span class=""><span class=" &nbsp;">&nbsp;</span></span></a></td><td class="BLN BBN"><a class="odds-wrap"><span class="oe-tag">o</span><span class=""><span class="&nbsp;"><span id="bu:od:price:23200325:h:0.93:1" class="odds black">0.93</span></span></span></a></td><td rowspan="2" class="more-column"></td></tr><tr id="row-nonlive-1-1" bgcolor="#bbdede"><td class="BRN BTN"><a class="odds-wrap"><span class="hdp-point">&nbsp;</span><span class=""><span class="&nbsp;"><span id="bu:od:price:23200320:a:0.92:1" class="odds black">0.92</span></span></span></a></td><td class="BRN BLN BTN"><a class="odds-wrap"><span class="ou-tag">u</span><span class=""><span class="&nbsp;"><span id="bu:od:price:23200322:a:0.91:1" class="odds black">0.91</span></span></span></a></td><td class="BLN BTN"><a class="odds-wrap"><span class="oe-tag">e</span><span class=""><span class="&nbsp;"><span id="bu:od:price:23200321:a:0.93:1" class="odds black">0.93</span></span></span></a></td><td class="BRN BTN"><a class=""><span class="hdp-point">&nbsp;</span><span class=""><span class="&nbsp;">&nbsp;</span></span></a></td><td class="BRN BLN BTN"><a class=""><span class="ou-tag">&nbsp;</span><span class=""><span class="&nbsp;">&nbsp;</span></span></a></td><td class="BLN BTN"><a class="odds-wrap"><span class="oe-tag">e</span><span class=""><span class="&nbsp;"><span id="bu:od:price:23200325:a:0.93:1" class="odds black">0.93</span></span></span></a></td></tr></tbody><tbody><tr class="league-row"><td colspan="9" id="bu:od:refresh-nonlive"><div class="icon-bg league-refresh-icon" title="刷新"></div><span class="league-name">NBA 美国职业篮球赛(下半场)</span></td></tr></tbody><tbody class="blue-bg  " onmouseout="OddsUtility.changeRowsColor('row-nonlive-2', '#ccddff', 2);" onmouseover="OddsUtility.changeRowsColor('row-nonlive-2', '#ffffcc', 2);"><tr id="row-nonlive-2-0" bgcolor="#ccddff"><td class="time-column" rowspan="2" title="">          <div class="time-column-inner">            <div class="time-column-icon">                                        </div>            <div class="time-column-content">              <span>10/30<br>**:**</span>              <br>              <span class="Red"></span>            </div>          </div></td><td class="team-name-column" rowspan="2" title=""><span class="Blue">印第安纳溜马(下半场)</span><br><span class="Blue">奥兰多魔术(下半场) </span></td><td class="BBN BRN"><a class=""><span class="hdp-point">&nbsp;</span><span class=""><span class="&nbsp;">&nbsp;</span></span></a></td><td class="BBN BRN BLN"><a class=""><span class="hdp-point">&nbsp;</span><span class="ou-tag">&nbsp;</span><span class=" "><span class="&nbsp;">&nbsp;</span></span></a></td><td class="BLN BBN"><a class="odds-wrap"><span class="oe-tag">o</span><span class=""><span class="&nbsp;"><span id="bu:od:price:23200395:h:0.93:0" class="odds black">0.93</span></span></span></a></td><td class="BBN BRN"><a class=""><span class="hdp-point">&nbsp;</span><span class=""><span class="&nbsp;">&nbsp;</span></span></a></td><td class="BBN BRN BLN"><a class=""><span class="hdp-point">&nbsp;</span><span class="ou-tag">&nbsp;</span><span class=""><span class=" &nbsp;">&nbsp;</span></span></a></td><td class="BLN BBN"><a class=""><span class="oe-tag">&nbsp;</span><span class=""><span class="&nbsp;">&nbsp;</span></span></a></td><td rowspan="2" class="more-column"></td></tr><tr id="row-nonlive-2-1" bgcolor="#ccddff"><td class="BRN BTN"><a class=""><span class="hdp-point">&nbsp;</span><span class=""><span class="&nbsp;">&nbsp;</span></span></a></td><td class="BRN BLN BTN"><a class=""><span class="ou-tag">&nbsp;</span><span class=""><span class="&nbsp;">&nbsp;</span></span></a></td><td class="BLN BTN"><a class="odds-wrap"><span class="oe-tag">e</span><span class=""><span class="&nbsp;"><span id="bu:od:price:23200395:a:0.93:0" class="odds black">0.93</span></span></span></a></td><td class="BRN BTN"><a class=""><span class="hdp-point">&nbsp;</span><span class=""><span class="&nbsp;">&nbsp;</span></span></a></td><td class="BRN BLN BTN"><a class=""><span class="ou-tag">&nbsp;</span><span class=""><span class="&nbsp;">&nbsp;</span></span></a></td><td class="BLN BTN"><a class=""><span class="oe-tag">&nbsp;</span><span class=""><span class="&nbsp;">&nbsp;</span></span></a></td></tr></tbody><tbody class="green-bg  " onmouseout="OddsUtility.changeRowsColor('row-nonlive-3', '#bbdede', 2);" onmouseover="OddsUtility.changeRowsColor('row-nonlive-3', '#ffffcc', 2);"><tr id="row-nonlive-3-0" bgcolor="#bbdede"><td class="time-column" rowspan="2" title="">          <div class="time-column-inner">            <div class="time-column-icon">                                        </div>            <div class="time-column-content">              <span>10/30<br>**:**</span>              <br>              <span class="Red"></span>            </div>          </div></td><td class="team-name-column" rowspan="2" title=""><span class="Blue">迈亚密热火(下半场)</span><br><span class="Blue">芝加哥公牛(下半场)</span></td><td class="BBN BRN"><a class=""><span class="hdp-point">&nbsp;</span><span class=""><span class="&nbsp;">&nbsp;</span></span></a></td><td class="BBN BRN BLN"><a class=""><span class="hdp-point">&nbsp;</span><span class="ou-tag">&nbsp;</span><span class=" "><span class="&nbsp;">&nbsp;</span></span></a></td><td class="BLN BBN"><a class="odds-wrap"><span class="oe-tag">o</span><span class=""><span class="&nbsp;"><span id="bu:od:price:23200401:h:0.93:0" class="odds black">0.93</span></span></span></a></td><td class="BBN BRN"><a class=""><span class="hdp-point">&nbsp;</span><span class=""><span class="&nbsp;">&nbsp;</span></span></a></td><td class="BBN BRN BLN"><a class=""><span class="hdp-point">&nbsp;</span><span class="ou-tag">&nbsp;</span><span class=""><span class=" &nbsp;">&nbsp;</span></span></a></td><td class="BLN BBN"><a class=""><span class="oe-tag">&nbsp;</span><span class=""><span class="&nbsp;">&nbsp;</span></span></a></td><td rowspan="2" class="more-column"></td></tr><tr id="row-nonlive-3-1" bgcolor="#bbdede"><td class="BRN BTN"><a class=""><span class="hdp-point">&nbsp;</span><span class=""><span class="&nbsp;">&nbsp;</span></span></a></td><td class="BRN BLN BTN"><a class=""><span class="ou-tag">&nbsp;</span><span class=""><span class="&nbsp;">&nbsp;</span></span></a></td><td class="BLN BTN"><a class="odds-wrap"><span class="oe-tag">e</span><span class=""><span class="&nbsp;"><span id="bu:od:price:23200401:a:0.93:0" class="odds black">0.93</span></span></span></a></td><td class="BRN BTN"><a class=""><span class="hdp-point">&nbsp;</span><span class=""><span class="&nbsp;">&nbsp;</span></span></a></td><td class="BRN BLN BTN"><a class=""><span class="ou-tag">&nbsp;</span><span class=""><span class="&nbsp;">&nbsp;</span></span></a></td><td class="BLN BTN"><a class=""><span class="oe-tag">&nbsp;</span><span class=""><span class="&nbsp;">&nbsp;</span></span></a></td></tr></tbody></table></div></div>
+				<div class="service-link-block"><ul><li class="BLN"><a href="http://www.sbobet-info.com/zh-cn/article/AA-00206/" class="SubMi" target="Info">博彩规则</a></li><li><a href="http://www.sbobet-info.com/zh-cn/article/AA-00211" target="Info">联络我们</a></li><li><a href="http://www.sbobet-info.com/zh-cn/article/AA-00245" target="Info">隐私权政策</a></li><li><a href="http://www.sbobet-info.com/zh-cn/article/AA-00240" target="Info">负责任的博弈</a></li><li><a href="http://www.sbo333.com/zh-cn/legal/terms-and-conditions/iomb2b" class="M1i" onmouseover="className='M1ih'" onmouseout="className='M1i'" target="_blank">法规和条例</a></li><li class="BRN"><a href="http://www.sbobet-info.com/zh-cn/article/AA-00324" target="Info">线上教程</a></li></ul></div>
+			</div>
+			<!--odds display end-->
+		</div>
+	</div>
+	</div>
+	<!--right cloumn start-->
+	
+	<div id="right-column" class="r-column hide">
+		<div id="right-column-tab" class="r-column-tab" onclick="return $P.onClick(event, 'right-column');"><ul><li id="bu:rc:tab:sports" class="r-column-tab-first-2 selected">体育博彩</li><li id="bu:rc:tab:games" class="r-column-tab-next-2 ">游戏</li></ul></div>
+		<div class="r-column-body">
+			<div id="right-sports-body" class="">
+				<div id="interested-event-view" class="event-view-hidden" onclick="return $P.onClick(event, 'interested-event');" style="overflow: hidden"></div>
+				<div id="promotional-content" class="event-promotion"><div class="event-promotion-content"><img width="248" height="479" src="/images/sidebar/sidebar_zh-cn.jpg?"></div></div>
+			</div>
+			<div id="right-games-body" class="hide">
+			</div>
+			<div id="right-classic-casino-body" class="hide">
+			</div>
+			<div id="right-live-casino-body" class="hide">
+			</div>
+		</div>
+	</div>
+	
+	<!--right-column-end-->
+	<div id="div-popup" class="hide"></div>
+	<div id="popup-mask"></div>
+	
+
+
+</body></html>
