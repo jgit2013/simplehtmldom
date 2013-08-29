@@ -196,7 +196,7 @@ foreach ($table_tbodys as $tbody) {
                         $span_oe_tag[0] = remove_html_scc(trim(strip_tags($span_oe_tag[0])));
                         $span_id[0] = remove_html_scc(trim(strip_tags($span_id[0])));
                         
-                    switch ($i) {
+                        switch ($i) {
                             case 0 : {
                                 if ($span_hdp_point[0] != '') {
                                     $odds_full_asian_handicap[] = $span_hdp_point[0];

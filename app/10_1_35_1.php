@@ -35,6 +35,10 @@ $game_number = 1;
 
 $count_teams = 0;
 
+//dubug
+$n1 = 1;
+$n2 = 1;
+
 foreach ($table_tbodys as $tbody) {
     $trs = $tbody->find('tr');
     
@@ -102,6 +106,12 @@ foreach ($table_tbodys as $tbody) {
                         $span_ou_tag = $tds[$i]->find('span.ou-tag');
                         $span_oe_tag = $tds[$i]->find('span.oe-tag');
                         $span_id = $tds[$i]->find('span[id]');
+                        
+                        if ($game_number == 2) {
+                            echo '<br>n1: '.$n1.'=>hdp-point: '.$span_hdp_point[0].' ou-tag: '.$span_ou_tag[0].' oe-tag: '.$span_oe_tag[0].' id: '.$span_id[0];
+                            
+                            $n1++;
+                        }
                         
                         $span_hdp_point[0] = remove_html_scc(trim(strip_tags($span_hdp_point[0])));
                         $span_ou_tag[0] = remove_html_scc(trim(strip_tags($span_ou_tag[0])));
@@ -191,12 +201,18 @@ foreach ($table_tbodys as $tbody) {
                         $span_oe_tag = $tds[$i]->find('span.oe-tag');
                         $span_id = $tds[$i]->find('span[id]');
                         
+                        if ($game_number == 2) {
+                            echo '<br>n2: '.$n2.'=>hdp-point: '.$span_hdp_point[0].' ou-tag: '.$span_ou_tag[0].' oe-tag: '.$span_oe_tag[0].' id: '.$span_id[0];
+                            
+                            $n2++;
+                        }
+                        
                         $span_hdp_point[0] = remove_html_scc(trim(strip_tags($span_hdp_point[0])));
                         $span_ou_tag[0] = remove_html_scc(trim(strip_tags($span_ou_tag[0])));
                         $span_oe_tag[0] = remove_html_scc(trim(strip_tags($span_oe_tag[0])));
                         $span_id[0] = remove_html_scc(trim(strip_tags($span_id[0])));
                         
-                    switch ($i) {
+                        switch ($i) {
                             case 0 : {
                                 if ($span_hdp_point[0] != '') {
                                     $odds_full_asian_handicap[] = $span_hdp_point[0];
